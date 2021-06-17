@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: battles
+          uri: lb://battles
+          predicates:
+            - Path=/battles/**
+        - id: scores
+          uri: lb://scores
+          predicates:
+            - Path=/scores/**
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8099/eureka/
