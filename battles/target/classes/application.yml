@@ -1,0 +1,55 @@
+server:
+    port: 8093
+    error:
+      include-message: always
+spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:8098
+  application:
+    name: battles
+  datasource:
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
+    password: 93344bf388edc6fd37f5a2fdd671fa0c0088661d90c49991f85406d54ea13bad
+    url: jdbc:postgresql://ec2-34-255-134-200.eu-west-1.compute.amazonaws.com:5432/dg2skb5skvm3j
+    username: temhavcdmfmwyn
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8099/eureka/
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      orderService:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        waitDurationInOpenState: 5s
+        slidingWindowType: COUNT_BASED
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+
+
